@@ -8,7 +8,7 @@ npm -g i confr-upload
 ```
 You may create alias
 ```
-alias cu confr-upload
+alias cu="confr-upload"
 ```
 
 ## Directory structure [example](https://github.com/ndelitski/rancher.confr.directory-tree-example)
@@ -40,11 +40,10 @@ $ cu --help
     -s, --stack [stack]    Override stack name [default: directory name]
     -f, --filter [filter]  Filter only services
 ```
-
 ```
 $ pwd
 /Users/ndelitski/repo/rancher.confr-directory-tree-example
-$ LOG_LEVEL=debug node cu -d ./metadata-proxy -e qa,production -u http://user:super-password@localhost:3000
+$ LOG_LEVEL=debug cu -d ./metadata-proxy -e qa,production -u http://user:super-password@localhost:3000
 [INFO]   2015-11-28 21:10:16:924   Start upload...
 [INFO]   2015-11-28 21:10:16:925   uploading conf.es6
 [DEBUG]  2015-11-28 21:10:16:932   started POST localhost:3000/files?stack=metadata-proxy&service=proxy&environment=qa&version=&name=conf.es6
@@ -55,5 +54,16 @@ $ LOG_LEVEL=debug node cu -d ./metadata-proxy -e qa,production -u http://user:su
 {"status":"ok"}
 [INFO]   2015-11-28 21:10:16:984   uploaded /metadata-proxy/proxy/qa/conf.es6
 [INFO]   2015-11-28 21:10:16:984   uploaded /metadata-proxy/proxy/production/conf.es6
+```
+
+### Short usage
+ - define `CONFR_BACKEND` environment variable in `.bash_profile` or other shell
+ - Environments will be loaded from `~/.rancher` file if you are using `rancher-cli`
+ - alias cud="confr-upload -d"
+ - cd to root directory
+
+And now:
+```
+$ cud your-stack [service] 
 ```
 
