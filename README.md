@@ -1,6 +1,6 @@
 # rancher.confr-upload
 
-Upload configuration files from a given directory to (confr-backend)[https://github.com/ndelitski/rancher.confr-backend]. Directory name is a stack name, subdirectories are services
+Upload configuration files from a given directory to [confr-backend](https://github.com/ndelitski/rancher.confr-backend). Directory name is a stack name, subdirectories are services
 
 ## Install
 ```
@@ -11,7 +11,7 @@ You may create alias
 alias cu confr-upload
 ```
 
-## Directory structure (Example)[https://github.com/ndelitski/rancher.confr.directory-tree-example]
+## Directory structure [example](https://github.com/ndelitski/rancher.confr.directory-tree-example)
 ```
 |-stacks                                
 |  |-stackA
