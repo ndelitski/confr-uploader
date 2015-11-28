@@ -1,0 +1,4 @@
+**
+!bin/uploader.js
+!dist/**
+!package.json

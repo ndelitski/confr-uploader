@@ -1,0 +1,8 @@
+{
+  "deep": {
+      "inside": {
+          "foo": "bar"
+      }
+  },
+  "result": "service_reply#config.json"
+}
