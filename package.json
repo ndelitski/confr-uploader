@@ -1,6 +1,6 @@
 {
   "name": "confr-upload",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Directory-to-`confr-backend` uploader",
   "author": "Nick Delitski",
   "scripts": {
