@@ -21,10 +21,11 @@ export default async function aggregateStackFiles({dir, stack, serviceFilter, en
     const filePath = path.join(stackLevelFilesPath, f);
     const [__, fileName] = filePath.replace(/.*stacks\//, '').split('/');
     const {version, environment} = Descriptor.parseFileName(fileName);
-    if (envFilter.indexOf(environment) < 0) {
+    if (environment && envFilter.indexOf(environment) < 0) {
       debug(`>>>> ${filePath} ignored due to env filter: ${envFilter}`);
       continue;
     }
+
     if (fs.statSync(filePath).isFile()) {
       if (fileName.match(/compose.*\.yml$/)) {
         debug(`>>>> ${filePath} ignored`);
@@ -44,6 +45,10 @@ export default async function aggregateStackFiles({dir, stack, serviceFilter, en
       const filePath = path.join(serviceLevelFilesPath, f);
       const [__, service, fileName] = filePath.replace(/.*stacks\//, '').split('/');
       const {version, environment} = Descriptor.parseFileName(fileName);
+      if (environment && envFilter.indexOf(environment) < 0) {
+        debug(`>>>> ${filePath} ignored due to env filter: ${envFilter}`);
+        continue;
+      }
 
       if (fs.statSync(filePath).isFile()) {
         if (fileName.match(/compose.*\.yml$/)) {
