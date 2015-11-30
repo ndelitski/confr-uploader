@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import {pairs, groupBy} from 'lodash';
 import {Descriptor, ConfigJsonDescriptor} from './descriptor';
+import {info, debug, error} from './log';
 
-export default async function aggregateStackFiles(dir, stack, serviceFilter) {
+export default async function aggregateStackFiles({dir, stack, serviceFilter, envFilter}) {
   const descriptors = [];
   let services = [];
   const stackLevelFilesPath = dir;
@@ -20,10 +21,13 @@ export default async function aggregateStackFiles(dir, stack, serviceFilter) {
     const filePath = path.join(stackLevelFilesPath, f);
     const [__, fileName] = filePath.replace(/.*stacks\//, '').split('/');
     const {version, environment} = Descriptor.parseFileName(fileName);
-
+    if (envFilter.indexOf(environment) < 0) {
+      debug(`>>>> ${filePath} ignored due to env filter: ${envFilter}`);
+      continue;
+    }
     if (fs.statSync(filePath).isFile()) {
       if (fileName.match(/compose.*\.yml$/)) {
-        console.log(`>>>> ${filePath} ignored`);
+        debug(`>>>> ${filePath} ignored`);
         continue;
       }
 

@@ -5,7 +5,8 @@
   "author": "Nick Delitski",
   "scripts": {
     "test": "./node_modules/.bin/mocha $(find test -name '*.es6' | sort)",
-    "build": "babel src/ -d dist/ --optional runtime"
+    "build": "babel src/ -d dist/ --optional runtime",
+    "prepublish": "npm test && npm run build"
   },
   "preferGlobal": true,
   "bin": {

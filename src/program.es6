@@ -13,6 +13,7 @@ const {
 
 program
   .version(require('../package.json').version)
+  .option('--debug [debug]', 'Debug mode')
   .option('-u, --url [url]', 'Url to confr-backend', CONFR_BACKEND)
   .option('-e, --env [env]', 'Enviromnent for environment-less files. Comma-separated values', getEnvironmentsFromRancherProfiles())
   .option('-d, --dir [dir]', 'Stack files directory [default: cwd]', process.cwd())
@@ -20,20 +21,21 @@ program
   .option('-f, --filter [filter]', 'Filter only services')
   .parse(process.argv);
 
-(async ({dir, stack, url, env, filter}) => {
+(async ({dir, stack, url, env, filter, debug}) => {
+  process.env.LOG_LEVEL = debug;
   if (!stack) {
     stack = path.basename(dir);
   }
 
   assert(env, '-e [env] is missing');
   assert(url, '-u, --url [url] is missing');
-
-  const byFile = await aggregateStackFiles(dir, stack, filter);
+  const environments = env.split(',').map((s) => s.trim());
+  const byFile = await aggregateStackFiles({dir, stack, serviceFilter: filter, envFilter: environments});
   info('Start upload...');
   for (let [f, list] of pairs(byFile)) {
     info(`uploading ${f}`);
     for (let d of list) {
-      const uploads = await d.upload({environments: env.split(',').map((s) => s.trim()), backend: url}); // if file have env dont override
+      const uploads = await d.upload({environments, backend: url}); // if file have env dont override
       for (let filePath of uploads) {
         info(`uploaded ${filePath}`);
       }
