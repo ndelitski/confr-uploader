@@ -88,7 +88,7 @@ export class Descriptor {
         }),
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': 'Basic ' + new Buffer(urlParsed.auth).toString('base64'),
+          'Authorization': urlParsed.auth && ('Basic ' + new Buffer(urlParsed.auth).toString('base64')),
           'Content-Length': content.length
         }
       };
